@@ -14,6 +14,9 @@ def get_internal_links(url, domian):
     """Extracts all internal links from a given webpage."""
     try:
         response = requests.get(url, headers=headers, timeout=10)
+        if len(response.history) > 5:
+            print(f"skipping {url} (Too many redirects)")
+            return set()
         soup = BeautifulSoup(response.text, 'html.parser')
 
         links = set()
